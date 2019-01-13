@@ -2,9 +2,10 @@
 set -e
 
 # initialize plugins from container
-mkdir -p ~/.helm/plugins ~/.helm/cache/plugins
-cp -r /helm-plguins/* ~/.helm/plugins
-cp -r /helm-plguins-cache/* ~/.helm/cache/plugins
+chown -R root:root /root/.helm/cache/plugins
+mkdir -p ~/.helm/plugins ~/.helm/cache/plugins || true
+cp -r /helm-plguins/* ~/.helm/plugins || true
+cp -r /helm-plguins-cache/* ~/.helm/cache/plugins || true
 
 # kubeconfig
 if [ -n "$KUBECONFIG_CONTENT" ]; then
