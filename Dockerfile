@@ -3,12 +3,12 @@
 ############################################################
 
 # Set the base image
-FROM alpine:3.8
+FROM alpine:latest
 
 ############################################################
 # Configuration
 ############################################################
-ENV VERSION "2.14.1"
+ENV VERSION "3.0.0"
 ENV FILENAME=helm-v${VERSION}-linux-amd64.tar.gz
 
 ############################################################
@@ -22,12 +22,12 @@ COPY rootfs /
 
 RUN apk add --no-cache ca-certificates bash git curl tar gzip coreutils &&\
     # Install Helm
-    curl -L http://storage.googleapis.com/kubernetes-helm/${FILENAME}> ${FILENAME} &&\
+    curl -L https://get.helm.sh/${FILENAME}> ${FILENAME} &&\
     tar zxv -C /tmp -f ${FILENAME} &&\
     rm -f ${FILENAME} &&\
     mv /tmp/linux-amd64/helm /bin/helm &&\
-    # Plugins
-    helm init --client-only
+	cp /bin/helm /bin/helm3 &&\
+	chmod +x /bin/helm /bin/helm3
 
 ############################################################
 # Execution
